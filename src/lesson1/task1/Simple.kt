@@ -54,7 +54,7 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
  * Пример главной функции
  */
 fun main() {
-   print(accountInThreeYears(100, 10))
+    print(lengthInMeters(8, 2, 11))
 }
 
 /**
@@ -75,7 +75,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = 60 * (60 * hours + mi
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
-    (sagenes * 3 * 48 * 4.445 + arshins * 48 * 4.445 + vershoks * 4.445) * 0.01
+    (sagenes.toDouble() * 3.0 * 48.0 + arshins.toDouble() * 48.0 + vershoks.toDouble()) * 4.445 * 0.01
 
 /**
  * Тривиальная (1 балл)
@@ -117,7 +117,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = initial.toDouble() * ((1 + percent.toDouble() / 100).toDouble()).pow(3)
+fun accountInThreeYears(initial: Int, percent: Int): Double =
+    initial.toDouble() * ((1 + percent.toDouble() / 100).toDouble()).pow(3)
 
 /**
  * Простая (2 балла)
