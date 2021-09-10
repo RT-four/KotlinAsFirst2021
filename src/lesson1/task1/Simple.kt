@@ -2,7 +2,8 @@
 
 package lesson1.task1
 
-import kotlin.math.*
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 // Урок 1: простые функции
 // Максимальное количество баллов = 5
@@ -53,8 +54,7 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
  * Пример главной функции
  */
 fun main() {
-    val x1x2 = quadraticRootProduct(1.0, 13.0, 42.0)
-    println("Root product: $x1x2")
+   print(accountInThreeYears(100, 10))
 }
 
 /**
@@ -65,7 +65,7 @@ fun main() {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = TODO()
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int = 60 * (60 * hours + minutes) + seconds
 
 /**
  * Тривиальная (1 балл)
@@ -74,7 +74,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = TODO()
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = TODO()
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
+    (sagenes * 3 * 48 * 4.445 + arshins * 48 * 4.445 + vershoks * 4.445) * 0.01
 
 /**
  * Тривиальная (1 балл)
@@ -116,7 +117,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
+fun accountInThreeYears(initial: Int, percent: Int): Double = initial.toDouble() * ((1 + percent.toDouble() / 100).toDouble()).pow(3)
 
 /**
  * Простая (2 балла)
@@ -124,4 +125,9 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = TODO()
+fun numberRevert(number: Int): Int {
+    var first = number / 100
+    var second = number % 100 / 10
+    var third = number % 10
+    return (third.toString() + second.toString() + first.toString()).toInt()
+}
