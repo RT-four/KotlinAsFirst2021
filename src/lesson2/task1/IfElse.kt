@@ -11,6 +11,14 @@ import kotlin.math.sqrt
 // Рекомендуемое количество баллов = 5
 // Вместе с предыдущими уроками = 9/12
 
+fun main() {
+    for (i in 1..100) {
+        println(ageDescription(i));
+    }
+
+}
+
+
 /**
  * Пример
  *
@@ -68,7 +76,16 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return when {
+        (age in 5..20) || (age in 110..120) -> "$age лет"
+        age % 10 == 1 -> "$age год"
+        age % 10 < 5 -> "$age года"
+        age % 10 > 4 || age % 10 == 0 -> "$age лет"
+        else -> "$age года"
+    }
+
+}
 
 /**
  * Простая (2 балла)
@@ -132,4 +149,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (a > c && a < d && d > a && d < b) return d - a;
+    if (c > a && c < b && b > d && d > a) return d - c;
+    if (c > a && c < b && d > b) return b - c;
+    if (a > c && a < d && b > c && b < d) return b - a;
+    if (b == c || a == d) return 0;
+    return -1;
+}
