@@ -12,7 +12,7 @@ import kotlin.math.sqrt
 // Вместе с предыдущими уроками = 9/12
 
 fun main() {
-    for (i in 1..100) {
+    for (i in 1..200) {
         println(ageDescription(i));
     }
 
@@ -79,6 +79,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     return when {
         (age in 5..20) || (age in 110..120) -> "$age лет"
+        age % 10 == 0 -> "$age лет"
         age % 10 == 1 -> "$age год"
         age % 10 < 5 -> "$age года"
         age % 10 > 4 || age % 10 == 0 -> "$age лет"
@@ -155,5 +156,6 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (c > a && c < b && d > b) return b - c;
     if (a > c && a < d && b > c && b < d) return b - a;
     if (b == c || a == d) return 0;
+    if (a == d && b == c) return b - a;
     return -1;
 }
