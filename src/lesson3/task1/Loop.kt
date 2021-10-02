@@ -219,7 +219,26 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var indexCounter = 0;
+    var nNumber = 0;
+    while (indexCounter + findNumOfDigits(findSquare(nNumber + 1)) < n) {
+        indexCounter += findNumOfDigits(findSquare(nNumber + 1));
+        nNumber++;
+    }
+    if (findNumOfDigits(findSquare(nNumber + 1)) == 1) {
+        val digit = findSquare(nNumber + 1);
+        return digit;
+    } else {
+        val digit =
+
+            getDigit(findSquare(nNumber + 1), n - indexCounter);
+        return digit;
+    }
+
+}
+
+fun findSquare(index: Int) = index * index;
 
 /**
  * Сложная (5 баллов)
