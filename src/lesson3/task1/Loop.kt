@@ -2,7 +2,11 @@
 
 package lesson3.task1
 
+import java.lang.Math.pow
+import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.sqrt
+
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -14,6 +18,11 @@ import kotlin.math.sqrt
  *
  * Вычисление факториала
  */
+
+fun main() {
+    println(sin(PI, 0.00001));
+}
+
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
@@ -170,7 +179,25 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var i = 3.0;
+    var res: Double = x;
+    var flag = 1.0;
+    while (abs(pow(x, i) / fact(i.toInt())) > eps) {
+        res = res + pow(-1.0, flag) * pow(x, i) / fact(i.toInt()).toDouble();
+        i += 2;
+        flag++;
+    }
+    return res
+}
+
+fun fact(num: Int): Long {
+    var fact: Long = 1
+    for (i in 1..num) {
+        fact *= i.toLong()
+    }
+    return fact;
+}
 
 /**
  * Средняя (4 балла)
@@ -203,4 +230,55 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var indexCounter = 0;
+    var nNumber = 0;
+    while (indexCounter + findNumOfDigits(findFibonachi(nNumber + 1)) < n) {
+        indexCounter += findNumOfDigits(findFibonachi(nNumber + 1));
+        nNumber++;
+    }
+    if (findNumOfDigits(findFibonachi(nNumber + 1)) == 1) {
+        val digit = findFibonachi(nNumber + 1);
+        return digit;
+    } else {
+        val digit =
+
+            getDigit(findFibonachi(nNumber + 1), n - indexCounter);
+        return digit;
+    }
+
+
+}
+
+
+fun findFibonachi(index: Int): Int {
+    if (index <= 2) return 1
+    var x = 1
+    var y = 1
+    var res = 0
+    for (i in 2 until index) {
+        res = x + y
+        x = y
+        y = res
+    }
+    return res
+}
+
+fun getDigit(num: Int, position: Int): Int {
+    var number = num;
+    if (num < 10) return num;
+    while (number > Math.pow(10.0, position.toDouble())) {
+        number /= 10;
+    };
+    return number % 10;
+}
+
+fun findNumOfDigits(i: Int): Int {
+    var digits = 0;
+    var num = i;
+    while (num > 0) {
+        num /= 10
+        digits++
+    }
+    return digits
+}
