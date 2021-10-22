@@ -2,9 +2,7 @@
 
 package lesson3.task1
 
-import java.lang.Math.pow
 import kotlin.math.PI
-import kotlin.math.abs
 import kotlin.math.sqrt
 
 
@@ -20,7 +18,7 @@ import kotlin.math.sqrt
  */
 
 fun main() {
-    println(sin(PI, 0.00001));
+    println(sin(PI, 0.00001))
 }
 
 fun factorial(n: Int): Double {
@@ -81,7 +79,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var digits = 0
+    var num = n
+    while (num > 0) {
+        num /= 10
+        digits++
+    }
+    return digits
+}
 
 /**
  * Простая (2 балла)
@@ -89,7 +95,18 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if (n <= 2) return 1
+    var x = 1
+    var y = 1
+    var res = 0
+    for (i in 2 until n) {
+        res = x + y
+        x = y
+        y = res
+    }
+    return res
+}
 
 /**
  * Простая (2 балла)
@@ -179,25 +196,8 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double {
-    var i = 3.0;
-    var res: Double = x;
-    var flag = 1.0;
-    while (abs(pow(x, i) / fact(i.toInt())) > eps) {
-        res = res + pow(-1.0, flag) * pow(x, i) / fact(i.toInt()).toDouble();
-        i += 2;
-        flag++;
-    }
-    return res
-}
+fun sin(x: Double, eps: Double): Double = TODO()
 
-fun fact(num: Int): Long {
-    var fact: Long = 1
-    for (i in 1..num) {
-        fact *= i.toLong()
-    }
-    return fact;
-}
 
 /**
  * Средняя (4 балла)
@@ -220,25 +220,28 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var indexCounter = 0;
-    var nNumber = 0;
-    while (indexCounter + findNumOfDigits(findSquare(nNumber + 1)) < n) {
-        indexCounter += findNumOfDigits(findSquare(nNumber + 1));
-        nNumber++;
+    var indexCounter = 0
+    var nNumber = 0
+    var digit: Int
+    while (indexCounter + digitNumber(findSquare(nNumber + 1)) < n) {
+        indexCounter += digitNumber(findSquare(nNumber + 1))
+        nNumber++
     }
-    if (findNumOfDigits(findSquare(nNumber + 1)) == 1) {
-        val digit = findSquare(nNumber + 1);
-        return digit;
-    } else {
-        val digit =
+    if (digitNumber(findSquare(nNumber + 1)) == 1) {
+        digit = findSquare(nNumber + 1)
 
-            getDigit(findSquare(nNumber + 1), n - indexCounter);
-        return digit;
+    } else {
+        digit =
+
+            getDigit(findSquare(nNumber + 1), n - indexCounter)
+
     }
+
+    return digit
 
 }
 
-fun findSquare(index: Int) = index * index;
+fun findSquare(index: Int) = index * index
 
 /**
  * Сложная (5 баллов)
@@ -250,54 +253,34 @@ fun findSquare(index: Int) = index * index;
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var indexCounter = 0;
-    var nNumber = 0;
-    while (indexCounter + findNumOfDigits(findFibonachi(nNumber + 1)) < n) {
-        indexCounter += findNumOfDigits(findFibonachi(nNumber + 1));
-        nNumber++;
+    var indexCounter = 0
+    var nNumber = 0
+    var digit: Int
+    while (indexCounter + digitNumber(fib(nNumber + 1)) < n) {
+        indexCounter += digitNumber(fib(nNumber + 1))
+        nNumber++
     }
-    if (findNumOfDigits(findFibonachi(nNumber + 1)) == 1) {
-        val digit = findFibonachi(nNumber + 1);
-        return digit;
+    if (digitNumber(fib(nNumber + 1)) == 1) {
+        digit = fib(nNumber + 1)
+
     } else {
-        val digit =
+        digit =
 
-            getDigit(findFibonachi(nNumber + 1), n - indexCounter);
-        return digit;
+            getDigit(fib(nNumber + 1), n - indexCounter)
+
     }
+    return digit
 
 
 }
 
-
-fun findFibonachi(index: Int): Int {
-    if (index <= 2) return 1
-    var x = 1
-    var y = 1
-    var res = 0
-    for (i in 2 until index) {
-        res = x + y
-        x = y
-        y = res
-    }
-    return res
-}
 
 fun getDigit(num: Int, position: Int): Int {
-    var number = num;
-    if (num < 10) return num;
+    var number = num
+    if (num < 10) return num
     while (number > Math.pow(10.0, position.toDouble())) {
-        number /= 10;
-    };
-    return number % 10;
+        number /= 10
+    }
+    return number % 10
 }
 
-fun findNumOfDigits(i: Int): Int {
-    var digits = 0;
-    var num = i;
-    while (num > 0) {
-        num /= 10
-        digits++
-    }
-    return digits
-}

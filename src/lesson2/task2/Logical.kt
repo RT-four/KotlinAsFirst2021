@@ -5,7 +5,7 @@ package lesson2.task2
 import lesson1.task1.sqr
 
 fun main() {
-    isNumberHappy(2534);
+    isNumberHappy(2534)
 }
 
 /**
@@ -65,8 +65,8 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if ((a <= r && b <= s) || (a <= s && b <= r) || (c <= r && a <= s) || (c <= s && b <= r) || (b <= s && c <= r)) {
-        return true;
+    if ((a <= r && b <= s) || (a <= r && c <= s) || (a <= s && b <= r) || (c <= r && a <= s) || (c <= s && b <= r) || (b <= s && c <= r)) {
+        return true
     }
-    return false;
+    return false
 }

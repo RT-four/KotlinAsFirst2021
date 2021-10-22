@@ -12,12 +12,8 @@ import kotlin.math.sqrt
 // Вместе с предыдущими уроками = 9/12
 
 fun main() {
-    for (i in 1..200) {
-        println(ageDescription(i));
-    }
-
+    print(timeForHalfWay(3.3333333333333335, 0.0, 0.016666666666666666, 1.0, 0.0, 0.0))
 }
-
 
 /**
  * Пример
@@ -98,15 +94,17 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val allRout = t1 * v1 + t2 * v2 + t3 * v3;
-    if (v1 == 0.0) {
-        if (t2 * v2 > allRout / 2) return allRout / 2 / v2;
-        return t2 + (allRout / 2 - t2 * v2) / v3 + t1;
+    var allWay = t1 * v1 + t2 * v2 + t3 * v3
+    var result: Double
+    if (t1 * v1 > allWay / 2) {
+        result = allWay / 2 / v1
+    } else if (t1 * v1 + t2 * v2 > allWay / 2) {
+        result = t1 + (allWay / 2 - t1 * v1) / v2
+    } else {
+        result = t1 + t2 + (allWay / 2 - t1 * v1 - t2 * v2) / v3
     }
-    if (t1 * v1 > allRout / 2) return allRout / 2 / v1;
-    else if (t1 * v1 + t2 * v2 > allRout / 2) return t1 + (allRout / 2 - t1 * v1) / v2;
-    else (return t1 + (allRout / 2 - t1 * v1) / v2 + (allRout - t1 + (allRout / 2 - t1 * v1) / v2) / v3);
-
+//    (t1 * v1 + t2 * v2 + t3 * v3 > allWay / 2)
+    return result
 }
 
 /**
@@ -159,11 +157,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (a > c && a < d && d > a && d < b) return d - a;
-    if (c > a && c < b && b > d && d > a) return d - c;
-    if (c > a && c < b && d > b) return b - c;
-    if (a > c && a < d && b > c && b < d) return b - a;
-    if (b == c || a == d) return 0;
-    if (a == c && b == d) return b - a;
-    return -1;
+    if (a > c && a < d && d > a && d < b) return d - a
+    if (c > a && c < b && b > d && d > a) return d - c
+    if (c > a && c < b && d > b) return b - c
+    if (a > c && a < d && b > c && b < d) return b - a
+    if (b == c || a == d) return 0
+    if (a == c && b == d) return b - a
+    if (a == c && b < d) return d - b
+    if (a == c && d < b) return b - d
+    return -1
 }
