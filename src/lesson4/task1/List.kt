@@ -359,7 +359,7 @@ fun russian(n: Int): String {
     val lastTwo = n % 100
     result = when {
         lastTwo < 20 -> firstNumbers[lastTwo]
-        lastTwo > 20 -> dozens[lastTwo / 10] + " " + firstNumbers[lastTwo % 10]
+        lastTwo >= 20 -> dozens[lastTwo / 10] + " " + firstNumbers[lastTwo % 10]
         else -> result
     }
     result = "${hundreds[(n % 1000) / 100]} $result".trim()
