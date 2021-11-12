@@ -14,7 +14,11 @@ fun main() {
 //    for (i in 0..999) {
 //        println(roman(i))
 //    }
-    println(roman(3999))
+    println(
+        russian(
+            999
+        )
+    )
 }
 
 
@@ -360,16 +364,18 @@ fun russian(n: Int): String {
     }
     result = "${hundreds[(n % 1000) / 100]} $result".trim()
     val twoThousensDigits = n % 100000 / 1000
-
-    if (twoThousensDigits in 1..9) {
-        result = "${thousens[twoThousensDigits]} $result".trim()
-    } else if (twoThousensDigits == 0 && n / 100000 != 0) {
-        result = " тысяч $result".trim()
-    } else if (twoThousensDigits < 20 && n / 100000 != 0) {
-        result = "${firstNumbers[twoThousensDigits]} тысяч $result".trim()
-    } else {
-        result = (dozens[twoThousensDigits / 10] + " " + thousens[twoThousensDigits % 10]).trim() + " " + result
+    if (n > 999) {
+        result = if (twoThousensDigits in 1..9) {
+            "${thousens[twoThousensDigits]} $result".trim()
+        } else if (twoThousensDigits == 0 && n / 100000 != 0) {
+            " тысяч $result".trim()
+        } else if (twoThousensDigits < 20) {
+            "${firstNumbers[twoThousensDigits]} тысяч $result".trim()
+        } else {
+            (dozens[twoThousensDigits / 10] + " " + thousens[twoThousensDigits % 10]).trim() + " " + result
+        }
     }
+
 
     return "${hundreds[n / 100000]} $result".trim()
 }

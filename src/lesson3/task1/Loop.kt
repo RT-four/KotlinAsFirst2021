@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 
@@ -17,7 +18,7 @@ import kotlin.math.sqrt
  */
 
 fun main() {
-    print(digitNumber(2))
+    print(digitNumber(19859))
 }
 
 fun factorial(n: Int): Double {
@@ -80,7 +81,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var digits = 0
-    var num = n
+    var num = abs(n)
     if (n == 0) {
         digits++
     } else {
