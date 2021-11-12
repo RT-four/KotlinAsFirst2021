@@ -372,7 +372,7 @@ fun russian(n: Int): String {
         } else if (twoThousensDigits < 20) {
             "${firstNumbers[twoThousensDigits]} тысяч $result".trim()
         } else {
-            (dozens[twoThousensDigits / 10] + " " + thousens[twoThousensDigits % 10]).trim() + " тысяч " + result
+            (dozens[twoThousensDigits / 10] + " " + thousens[twoThousensDigits % 10]).trim() +" "+ result
         }
     }
 

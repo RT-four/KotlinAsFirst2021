@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import kotlin.math.abs
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 
@@ -18,7 +19,8 @@ import kotlin.math.sqrt
  */
 
 fun main() {
-    println(squareSequenceDigit(11))
+    println(squareSequenceDigit(2))
+
 }
 
 fun factorial(n: Int): Double {
@@ -241,14 +243,14 @@ fun squareSequenceDigit(n: Int): Int {
     var counter = 0;
     var i = 1;
     val segment: MutableList<Int> = arrayListOf()
-    while (counter + digitNumber(i+1) <=n) {
+    while (counter < n) {
         segment.add(findSquare(i))
         counter += digitNumber(findSquare(i))
         i++
     }
-    println("segment: $segment")
-    println("counter: $counter")
-    return getDigit(segment[segment.size - 1], n - counter + 1)
+
+    return getDigit(segment[segment.size - 1], digitNumber(segment[segment.size - 1]) - (counter - n))
+
 
 }
 
@@ -264,20 +266,30 @@ fun findSquare(index: Int) = index * index
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var indexCounter = 0
-    var nNumber = 0
-    var digit: Int
-    while (indexCounter + digitNumber(fib(nNumber + 1)) < n) {
-        indexCounter += digitNumber(fib(nNumber + 1))
-        nNumber++
+//    var indexCounter = 0
+//    var nNumber = 0
+//    var digit: Int
+//    while (indexCounter + digitNumber(fib(nNumber + 1)) < n) {
+//        indexCounter += digitNumber(fib(nNumber + 1))
+//        nNumber++
+//    }
+//    return if (digitNumber(fib(nNumber + 1)) == 1) {
+//        fib(nNumber + 1)
+//
+//    } else {
+//        getDigit(fib(nNumber + 1), n - indexCounter)
+//
+//    }
+    var counter = 0;
+    var i = 1;
+    val segment: MutableList<Int> = arrayListOf()
+    while (counter < n) {
+        segment.add(fib(i))
+        counter += digitNumber(fib(i))
+        i++
     }
-    return if (digitNumber(fib(nNumber + 1)) == 1) {
-        fib(nNumber + 1)
 
-    } else {
-        getDigit(fib(nNumber + 1), n - indexCounter)
-
-    }
+    return getDigit(segment[segment.size - 1], digitNumber(segment[segment.size - 1]) - (counter - n))
 
 }
 
@@ -285,9 +297,13 @@ fun fibSequenceDigit(n: Int): Int {
 fun getDigit(num: Int, position: Int): Int {
     var number = num
     if (num < 10) return num
-    while (number > Math.pow(10.0, position.toDouble())) {
-        number /= 10
+    val del = (10.0).pow((digitNumber(num) - position))
+    if (del < 10) {
+        return number % 10
     }
-    return number % 10
+
+    return number / del.toInt() % 10
+
 }
+
 
