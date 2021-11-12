@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import kotlin.math.PI
 import kotlin.math.sqrt
 
 
@@ -18,7 +17,7 @@ import kotlin.math.sqrt
  */
 
 fun main() {
-    println(sin(PI, 0.00001))
+    print(digitNumber(2))
 }
 
 fun factorial(n: Int): Double {
@@ -82,10 +81,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var digits = 0
     var num = n
-    while (num > 0) {
-        num /= 10
+    if (n == 0) {
         digits++
+    } else {
+        while (num > 0) {
+            num /= 10
+            digits++
+        }
     }
+
     return digits
 }
 
@@ -227,17 +231,13 @@ fun squareSequenceDigit(n: Int): Int {
         indexCounter += digitNumber(findSquare(nNumber + 1))
         nNumber++
     }
-    if (digitNumber(findSquare(nNumber + 1)) == 1) {
-        digit = findSquare(nNumber + 1)
+    return if (digitNumber(findSquare(nNumber + 1)) == 1) {
+        findSquare(nNumber + 1)
 
     } else {
-        digit =
-
-            getDigit(findSquare(nNumber + 1), n - indexCounter)
-
+        getDigit(findSquare(nNumber + 1), n - indexCounter)
     }
 
-    return digit
 
 }
 
@@ -260,17 +260,13 @@ fun fibSequenceDigit(n: Int): Int {
         indexCounter += digitNumber(fib(nNumber + 1))
         nNumber++
     }
-    if (digitNumber(fib(nNumber + 1)) == 1) {
-        digit = fib(nNumber + 1)
+    return if (digitNumber(fib(nNumber + 1)) == 1) {
+        fib(nNumber + 1)
 
     } else {
-        digit =
-
-            getDigit(fib(nNumber + 1), n - indexCounter)
+        getDigit(fib(nNumber + 1), n - indexCounter)
 
     }
-    return digit
-
 
 }
 

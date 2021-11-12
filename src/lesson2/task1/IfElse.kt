@@ -95,16 +95,13 @@ fun timeForHalfWay(
     t3: Double, v3: Double
 ): Double {
     var allWay = t1 * v1 + t2 * v2 + t3 * v3
-    var result: Double
-    if (t1 * v1 > allWay / 2) {
-        result = allWay / 2 / v1
+    return if (t1 * v1 > allWay / 2) {
+        allWay / 2 / v1
     } else if (t1 * v1 + t2 * v2 > allWay / 2) {
-        result = t1 + (allWay / 2 - t1 * v1) / v2
+        t1 + (allWay / 2 - t1 * v1) / v2
     } else {
-        result = t1 + t2 + (allWay / 2 - t1 * v1 - t2 * v2) / v3
+        t1 + t2 + (allWay / 2 - t1 * v1 - t2 * v2) / v3
     }
-//    (t1 * v1 + t2 * v2 + t3 * v3 > allWay / 2)
-    return result
 }
 
 /**
@@ -157,13 +154,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (a > c && a < d && d > a && d < b) return d - a
-    if (c > a && c < b && b > d && d > a) return d - c
-    if (c > a && c < b && d > b) return b - c
-    if (a > c && a < d && b > c && b < d) return b - a
+    if (a in (c + 1) until d && d > a && d < b) return d - a
+    if (c in (a + 1) until b && b > d && d > a) return d - c
+    if (c in (a + 1) until b && d > b) return b - c
+    if (a in (c + 1) until d && b > c && b < d) return b - a
     if (b == c || a == d) return 0
     if (a == c && b == d) return b - a
-    if (a == c && b < d) return d - b
-    if (a == c && d < b) return b - d
+    if (a == c && b < d) return b - a
+    if (a == c && d < b) return d - c
     return -1
 }

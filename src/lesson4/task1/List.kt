@@ -10,6 +10,14 @@ import kotlin.math.sqrt
 // Рекомендуемое количество баллов = 8
 // Вместе с предыдущими уроками = 24/33
 
+fun main() {
+//    for (i in 0..999) {
+//        println(roman(i))
+//    }
+    println(roman(3999))
+}
+
+
 /**
  * Пример
  *
@@ -127,7 +135,12 @@ fun abs(v: List<Double>): Double = TODO()
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    return when {
+        list.isEmpty() -> 0.0
+        else -> list.sum() / list.size
+    }
+}
 
 /**
  * Средняя (3 балла)
@@ -241,7 +254,32 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var result = ""
+    val numbers = listOf<String>("I", "V", "X", "L", "C", "D", "M")
+    val firstN = n % 10
+    val secondN = n % 100 / 10
+    val thirdN = n % 1000 / 100
+    val fourthN = n / 1000
+    return if (n in 0..3999) {
+        create(fourthN, 6, 2, 6, numbers) + create(thirdN, 4, 5, 6, numbers) + create(
+            secondN, 2, 3, 4, numbers
+        ) + create(firstN, 0, 1, 2, numbers)
+    } else {
+        "Not in the range"
+    }
+}
+
+fun create(num: Int, i: Int, j: Int, z: Int, dict: List<String>): String {
+    return when (num) {
+        in 1..3 -> dict[i].repeat(num)
+        4 -> dict[i] + dict[j]
+        5 -> dict[j]
+        in 6..8 -> dict[j] + dict[i].repeat(num - 5)
+        9 -> dict[i] + dict[z]
+        else -> ""
+    }
+}
 
 /**
  * Очень сложная (7 баллов)
@@ -250,4 +288,125 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val firstNumbers =
+        listOf<String>(
+            "",
+            "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять", "одиннадцать",
+            "двенадцать",
+            "тринадцать",
+            "четырнадцать",
+            "пятнадцать",
+            "шестнадцать",
+            "семнадцать",
+            "восемнадцать",
+            "девятнадцать", "двадцать"
+        )
+    val secondNumbers = listOf<String>(
+        "",
+        "одиннадцать",
+        "двенадцать",
+        "тринадцать",
+        "четырнадцать",
+        "пятнадцать",
+        "шестнадцать",
+        "семнадцать",
+        "восемнадцать",
+        "девятнадцать"
+    )
+    val dozens = listOf<String>(
+        "",
+        "десять",
+        "двадцать",
+        "тридцать",
+        "сорок",
+        "пятьдесят",
+        "шестьдесят",
+        "семьдесят",
+        "восемьдесят",
+        "девяносто"
+    )
+    val hundreds = listOf<String>(
+        "",
+        "сто",
+        "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот"
+    )
+    val thousens = listOf<String>(
+        "",
+        "одна тысяча",
+        "две тысячи",
+        "три тысячи",
+        "четыре тысячи",
+        "пять тысяч",
+        "шесть тысяч",
+        "семь тысяч",
+        "восемь тысяч",
+        "девять тысяч"
+    )
+
+
+    var nInWorkForm = "$n"
+    var result = ""
+
+    for (i in 0..digitNumber(1000000 / n) - 2) {
+        nInWorkForm = "0$nInWorkForm"
+        nInWorkForm = "0$nInWorkForm"
+    }
+    val lastTwo = n % 100
+    result = when {
+        lastTwo < 20 -> firstNumbers[lastTwo]
+        lastTwo > 20 -> dozens[lastTwo / 10] + " " + firstNumbers[lastTwo % 10]
+        else -> result
+    }
+    result = "${hundreds[(n % 1000) / 100]} $result".trim()
+    val twoThousensDigits = n % 100000 / 1000
+
+    if (twoThousensDigits in 1..9) {
+        result = "${thousens[twoThousensDigits]} $result".trim()
+    } else if (twoThousensDigits == 0 && n / 100000 != 0) {
+        result = " тысяч $result".trim()
+    } else if (twoThousensDigits < 20 && n / 100000 != 0) {
+        result = "${firstNumbers[twoThousensDigits]} тысяч $result".trim()
+    } else {
+        result = (dozens[twoThousensDigits / 10] + " " + thousens[twoThousensDigits % 10]).trim() + " " + result
+    }
+
+    return "${hundreds[n / 100000]} $result".trim()
+}
+
+
+fun digitNumber(n: Int): Int {
+    var digits = 0
+    var num = n
+    if (n == 0) {
+        digits++
+    } else {
+        while (num > 0) {
+            num /= 10
+            digits++
+        }
+    }
+
+    return digits
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
