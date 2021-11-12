@@ -3,7 +3,6 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -163,6 +162,6 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (a == c && b == d) return b - a
     if (a == c && b < d) return b - a
     if (a == c && d < b) return d - c
-    if (b == d) return abs(c - a)
+    if (b == d) return b - max(a, c)
     return -1
 }

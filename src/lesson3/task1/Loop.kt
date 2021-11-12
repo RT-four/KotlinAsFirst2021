@@ -18,7 +18,7 @@ import kotlin.math.sqrt
  */
 
 fun main() {
-    print(digitNumber(19859))
+    println(squareSequenceDigit(11))
 }
 
 fun factorial(n: Int): Double {
@@ -225,20 +225,30 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var indexCounter = 0
-    var nNumber = 0
-    var digit: Int
-    while (indexCounter + digitNumber(findSquare(nNumber + 1)) < n) {
-        indexCounter += digitNumber(findSquare(nNumber + 1))
-        nNumber++
+//    var indexCounter = 0
+//    var nNumber = 0
+//    var digit: Int
+//    while (indexCounter + digitNumber(findSquare(nNumber + 1)) < n) {
+//        indexCounter += digitNumber(findSquare(nNumber + 1))
+//        nNumber++
+//    }
+//    return if (digitNumber(findSquare(nNumber + 1)) == 1) {
+//        findSquare(nNumber + 1)
+//
+//    } else {
+//        getDigit(findSquare(nNumber + 1), n - indexCounter)
+//    }
+    var counter = 0;
+    var i = 1;
+    val segment: MutableList<Int> = arrayListOf()
+    while (counter + digitNumber(i+1) <=n) {
+        segment.add(findSquare(i))
+        counter += digitNumber(findSquare(i))
+        i++
     }
-    return if (digitNumber(findSquare(nNumber + 1)) == 1) {
-        findSquare(nNumber + 1)
-
-    } else {
-        getDigit(findSquare(nNumber + 1), n - indexCounter)
-    }
-
+    println("segment: $segment")
+    println("counter: $counter")
+    return getDigit(segment[segment.size - 1], n - counter + 1)
 
 }
 

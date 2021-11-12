@@ -367,12 +367,12 @@ fun russian(n: Int): String {
     if (n > 999) {
         result = if (twoThousensDigits in 1..9) {
             "${thousens[twoThousensDigits]} $result".trim()
-        } else if (twoThousensDigits == 0 && n / 100000 != 0) {
+        } else if (twoThousensDigits == 0) {
             " тысяч $result".trim()
         } else if (twoThousensDigits < 20) {
             "${firstNumbers[twoThousensDigits]} тысяч $result".trim()
         } else {
-            (dozens[twoThousensDigits / 10] + " " + thousens[twoThousensDigits % 10]).trim() + " " + result
+            (dozens[twoThousensDigits / 10] + " " + thousens[twoThousensDigits % 10]).trim() + " тысяч " + result
         }
     }
 
