@@ -24,7 +24,7 @@ import kotlin.math.pow
  */
 
 fun main() {
-    printDivisionProcess(506682, 43629, "Result")
+    printDivisionProcess(669179, 5123, "Result")
 }
 
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
@@ -511,7 +511,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             writeNewLine(firstLine)
             writeNewLine(secondLine)
 
-            if (firstLine.trim().length >= generateFirstLine(firstValue, secondValue, lastLine).trim().length) {
+            if (secondLine.trim().length >= generateFirstLine(firstValue, secondValue, lastLine).trim().length) {
                 writeNewLine(createLine(secondLine))
             } else {
                 writeNewLine(createLine(generateFirstLine(firstValue, secondValue, lastLine)))
