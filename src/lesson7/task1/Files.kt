@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import kotlin.math.pow
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -21,6 +22,11 @@ import java.io.File
  * Пустые строки во входном файле обозначают конец абзаца,
  * их следует сохранить и в выходном файле
  */
+
+fun main() {
+    printDivisionProcess(576556, 54, "Result")
+}
+
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     var currentLineLength = 0
@@ -268,15 +274,15 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  *
  * Соответствующий выходной файл:
 <html>
-    <body>
-        <p>
-            Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
-            Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
-        </p>
-        <p>
-            Suspendisse <s>et elit in enim tempus iaculis</s>.
-        </p>
-    </body>
+<body>
+<p>
+Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
+Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
+</p>
+<p>
+Suspendisse <s>et elit in enim tempus iaculis</s>.
+</p>
+</body>
 </html>
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -319,65 +325,65 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  *
  * Пример входного файла:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
-* Утка по-пекински
-    * Утка
-    * Соус
-* Салат Оливье
-    1. Мясо
-        * Или колбаса
-    2. Майонез
-    3. Картофель
-    4. Что-то там ещё
-* Помидоры
-* Фрукты
-    1. Бананы
-    23. Яблоки
-        1. Красные
-        2. Зелёные
+ * Утка по-пекински
+ * Утка
+ * Соус
+ * Салат Оливье
+1. Мясо
+ * Или колбаса
+2. Майонез
+3. Картофель
+4. Что-то там ещё
+ * Помидоры
+ * Фрукты
+1. Бананы
+23. Яблоки
+1. Красные
+2. Зелёные
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  *
  *
  * Соответствующий выходной файл:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
 <html>
-  <body>
-    <p>
-      <ul>
-        <li>
-          Утка по-пекински
-          <ul>
-            <li>Утка</li>
-            <li>Соус</li>
-          </ul>
-        </li>
-        <li>
-          Салат Оливье
-          <ol>
-            <li>Мясо
-              <ul>
-                <li>Или колбаса</li>
-              </ul>
-            </li>
-            <li>Майонез</li>
-            <li>Картофель</li>
-            <li>Что-то там ещё</li>
-          </ol>
-        </li>
-        <li>Помидоры</li>
-        <li>Фрукты
-          <ol>
-            <li>Бананы</li>
-            <li>Яблоки
-              <ol>
-                <li>Красные</li>
-                <li>Зелёные</li>
-              </ol>
-            </li>
-          </ol>
-        </li>
-      </ul>
-    </p>
-  </body>
+<body>
+<p>
+<ul>
+<li>
+Утка по-пекински
+<ul>
+<li>Утка</li>
+<li>Соус</li>
+</ul>
+</li>
+<li>
+Салат Оливье
+<ol>
+<li>Мясо
+<ul>
+<li>Или колбаса</li>
+</ul>
+</li>
+<li>Майонез</li>
+<li>Картофель</li>
+<li>Что-то там ещё</li>
+</ol>
+</li>
+<li>Помидоры</li>
+<li>Фрукты
+<ol>
+<li>Бананы</li>
+<li>Яблоки
+<ol>
+<li>Красные</li>
+<li>Зелёные</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+</p>
+</body>
 </html>
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -404,23 +410,23 @@ fun markdownToHtml(inputName: String, outputName: String) {
  * Вывести в выходной файл процесс умножения столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 111):
-   19935
-*    111
+19935
+ *    111
 --------
-   19935
+19935
 + 19935
 +19935
 --------
- 2212785
+2212785
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  * Нули в множителе обрабатывать так же, как и остальные цифры:
-  235
-*  10
+235
+ *  10
 -----
-    0
+0
 +235
 -----
- 2350
+2350
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
@@ -434,21 +440,171 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Вывести в выходной файл процесс деления столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 22):
-  19935 | 22
- -198     906
- ----
-    13
-    -0
-    --
-    135
-   -132
-   ----
-      3
+19935 | 22
+-198     906
+----
+13
+-0
+--
+135
+-132
+----
+3
+
 
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val remainder = lhv
+    var voidCounter = 1
+    var buffer = ""
+    var result = ""
+    var firstLine = " $lhv | $rhv"
+    var secondLine = "-"
+    var activeNumber = getDigit(lhv, 1)
+    var firstValue = 0
+    var secondValue = 0
+    var freeNumber = 1
+    var lastLine = ""
+
+    for (i in 1..digitNumber(lhv)) {
+        if (i != 1) {
+            activeNumber = (activeNumber.toString() + getDigit(lhv, freeNumber).toString()).toInt()
+
+        }
+        freeNumber = i + 1
+        if (activeNumber / rhv > 0) {
+            result += (activeNumber / rhv).toString()
+            secondLine += (rhv * (activeNumber / rhv)).toString()
+            firstValue = activeNumber
+            secondValue = rhv * (activeNumber / rhv)
+            break
+        }
+    }
+    if (secondValue.equals(0)) {
+        secondLine += 0
+    }
+    writer.write(firstLine)
+    writer.newLine()
+    secondLine = secondLine + " ".repeat(firstLine.length - rhv.toString().length - secondLine.length) + "${lhv / rhv}"
+    writer.write(secondLine)
+    writer.newLine()
+    lastLine = "-".repeat((rhv * (activeNumber / rhv)).toString().length + 1)
+    writer.write(lastLine)
+    activeNumber = firstValue - secondValue
+    if (digitNumber(lhv / rhv) > 1) {
+        while (freeNumber <= digitNumber(lhv)) {
+            firstLine = generateFirstLine(firstValue, secondValue, lastLine)
+            firstLine += getDigit(lhv, freeNumber).toString()
+            activeNumber = firstLine.trim().toInt()
+            result += (activeNumber / rhv).toString()
+            firstValue = firstLine.trim().toInt()
+            secondValue = rhv * (result.toInt() % 10)
+            lastLine = firstLine
+            secondLine = generateSecondLine(secondValue, lastLine)
+
+            writer.newLine()
+            writer.write(firstLine)
+            writer.newLine()
+            writer.write(secondLine)
+            writer.newLine()
+            writer.write(createLine(secondLine))
+
+            freeNumber++
+        }
+
+
+    }
+    if (lhv < rhv) {
+        firstLine = generateFirstLine(lhv, 0, lastLine)
+    } else {
+        firstLine = generateFirstLine(firstValue, secondValue, lastLine)
+    }
+
+    writer.newLine()
+    writer.write(firstLine)
+    writer.close()
 }
+
+
+fun generateSecondLine(secondValue: Int, lastLine: String): String {
+    var res = "-$secondValue"
+    while (lastLine.length > res.length) {
+        res = " " + res
+    }
+    return res
+}
+
+fun generateFirstLine(firstValue: Int, secondValue: Int, lastLine: String): String {
+    var res = (firstValue - secondValue).toString()
+
+    while (lastLine.length > res.length) {
+        res = " " + res
+    }
+    return res
+}
+
+
+fun digitNumber(n: Int): Int {
+    var digits = 0
+    var num = n
+    if (n == 0) {
+        digits++
+    } else {
+        while (num > 0) {
+            num /= 10
+            digits++
+        }
+    }
+
+    return digits
+}
+
+fun createLine(previousLine: String): String {
+    var line = ""
+    for (digit: Char in previousLine) {
+        if (digit.equals(' ')) {
+            line += " "
+        } else {
+            line += "-"
+        }
+    }
+    return line
+}
+
+fun getDigit(num: Int, position: Int): Int {
+    var number = num
+    if (num < 10) return num
+    val del = (10.0).pow((lesson3.task1.digitNumber(num) - position))
+    if (del < 10) {
+        return number % 10
+    }
+    return number / del.toInt() % 10
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

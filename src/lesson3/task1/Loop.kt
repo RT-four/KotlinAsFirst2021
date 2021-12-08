@@ -266,20 +266,6 @@ fun findSquare(index: Int) = index * index
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-//    var indexCounter = 0
-//    var nNumber = 0
-//    var digit: Int
-//    while (indexCounter + digitNumber(fib(nNumber + 1)) < n) {
-//        indexCounter += digitNumber(fib(nNumber + 1))
-//        nNumber++
-//    }
-//    return if (digitNumber(fib(nNumber + 1)) == 1) {
-//        fib(nNumber + 1)
-//
-//    } else {
-//        getDigit(fib(nNumber + 1), n - indexCounter)
-//
-//    }
     var counter = 0;
     var i = 1;
     val segment: MutableList<Int> = arrayListOf()
@@ -288,7 +274,6 @@ fun fibSequenceDigit(n: Int): Int {
         counter += digitNumber(fib(i))
         i++
     }
-
     return getDigit(segment[segment.size - 1], digitNumber(segment[segment.size - 1]) - (counter - n))
 
 }
@@ -301,7 +286,6 @@ fun getDigit(num: Int, position: Int): Int {
     if (del < 10) {
         return number % 10
     }
-
     return number / del.toInt() % 10
 
 }
