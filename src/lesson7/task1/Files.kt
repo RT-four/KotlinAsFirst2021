@@ -24,7 +24,7 @@ import kotlin.math.pow
  */
 
 fun main() {
-    printDivisionProcess(576556, 54, "Result")
+    printDivisionProcess(485795, 45136, "Result")
 }
 
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
@@ -457,9 +457,6 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    val remainder = lhv
-    var voidCounter = 1
-    var buffer = ""
     var result = ""
     var firstLine = " $lhv | $rhv"
     var secondLine = "-"
@@ -469,11 +466,13 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     var freeNumber = 1
     var lastLine = ""
 
-    for (i in 1..digitNumber(lhv)) {
-        if (i != 1) {
-            activeNumber = (activeNumber.toString() + getDigit(lhv, freeNumber).toString()).toInt()
+    fun writeNewLine(line: String) {
+        writer.newLine()
+        writer.write(line)
+    }
 
-        }
+    for (i in 1..digitNumber(lhv)) {
+        if (i != 1) activeNumber = (activeNumber.toString() + getDigit(lhv, freeNumber).toString()).toInt()
         freeNumber = i + 1
         if (activeNumber / rhv > 0) {
             result += (activeNumber / rhv).toString()
@@ -483,49 +482,52 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             break
         }
     }
-    if (secondValue.equals(0)) {
-        secondLine += 0
-    }
-    writer.write(firstLine)
-    writer.newLine()
+
+    if (secondValue == 0) secondLine += 0
+
     secondLine = secondLine + " ".repeat(firstLine.length - rhv.toString().length - secondLine.length) + "${lhv / rhv}"
-    writer.write(secondLine)
-    writer.newLine()
     lastLine = "-".repeat((rhv * (activeNumber / rhv)).toString().length + 1)
-    writer.write(lastLine)
+
+    writer.write(firstLine)
+    writeNewLine(secondLine)
+    writeNewLine(lastLine)
+
     activeNumber = firstValue - secondValue
+
     if (digitNumber(lhv / rhv) > 1) {
         while (freeNumber <= digitNumber(lhv)) {
-            firstLine = generateFirstLine(firstValue, secondValue, lastLine)
-            firstLine += getDigit(lhv, freeNumber).toString()
+
+            firstLine = generateFirstLine(firstValue, secondValue, lastLine) + getDigit(lhv, freeNumber).toString()
+
             activeNumber = firstLine.trim().toInt()
             result += (activeNumber / rhv).toString()
+
             firstValue = firstLine.trim().toInt()
             secondValue = rhv * (result.toInt() % 10)
+
             lastLine = firstLine
             secondLine = generateSecondLine(secondValue, lastLine)
 
-            writer.newLine()
-            writer.write(firstLine)
-            writer.newLine()
-            writer.write(secondLine)
-            writer.newLine()
-            writer.write(createLine(secondLine))
+            writeNewLine(firstLine)
+            writeNewLine(secondLine)
+
+            if (firstLine.trim().length > generateFirstLine(firstValue, secondValue, lastLine).trim().length) {
+                writeNewLine(createLine(secondLine))
+            } else {
+                writeNewLine(createLine(generateFirstLine(firstValue, secondValue, lastLine)))
+            }
 
             freeNumber++
         }
-
-
-    }
-    if (lhv < rhv) {
-        firstLine = generateFirstLine(lhv, 0, lastLine)
-    } else {
-        firstLine = generateFirstLine(firstValue, secondValue, lastLine)
     }
 
-    writer.newLine()
-    writer.write(firstLine)
+    firstLine =
+        if (lhv < rhv) generateFirstLine(lhv, 0, lastLine) else generateFirstLine(firstValue, secondValue, lastLine)
+
+    writeNewLine(firstLine)
+
     writer.close()
+
 }
 
 
@@ -539,7 +541,6 @@ fun generateSecondLine(secondValue: Int, lastLine: String): String {
 
 fun generateFirstLine(firstValue: Int, secondValue: Int, lastLine: String): String {
     var res = (firstValue - secondValue).toString()
-
     while (lastLine.length > res.length) {
         res = " " + res
     }
@@ -565,24 +566,15 @@ fun digitNumber(n: Int): Int {
 fun createLine(previousLine: String): String {
     var line = ""
     for (digit: Char in previousLine) {
-        if (digit.equals(' ')) {
-            line += " "
-        } else {
-            line += "-"
-        }
+        line += if (digit == ' ') " " else "-"
     }
     return line
 }
 
 fun getDigit(num: Int, position: Int): Int {
-    var number = num
     if (num < 10) return num
     val del = (10.0).pow((lesson3.task1.digitNumber(num) - position))
-    if (del < 10) {
-        return number % 10
-    }
-    return number / del.toInt() % 10
-
+    return if (del < 10) num % 10 else num / del.toInt() % 10
 }
 
 
