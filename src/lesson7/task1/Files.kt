@@ -24,8 +24,8 @@ import kotlin.math.pow
  */
 
 fun main() {
-    printDivisionProcess(7057, 10038, "Result")
-    print("5625 | 11158\n  -0   0\n----\n5625")
+    printDivisionProcess(4, 7, "Result")
+    print(" 1 | 1\n-1   1\n--\n 0")
 }
 
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
@@ -471,7 +471,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         writer.newLine()
         writer.write(line)
     }
-    firstLine = if (lhv > rhv || lhv.toString().length < rhv.toString().length) " $lhv | $rhv" else "$lhv | $rhv"
+    firstLine = if (lhv > rhv || lhv.toString().length <= rhv.toString().length) " $lhv | $rhv" else "$lhv | $rhv"
 
     for (i in 1..digitNumber(lhv)) {
         if (i != 1) activeNumber = (activeNumber.toString() + getDigit(lhv, freeNumber).toString()).toInt()
@@ -488,7 +488,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     if (secondValue == 0) secondLine += 0
 
     secondLine =
-        if (lhv > rhv || lhv.toString().length < rhv.toString().length) secondLine + " ".repeat(firstLine.length - rhv.toString().length - secondLine.length) + "${lhv / rhv}" else " ".repeat(
+        if (lhv > rhv || lhv.toString().length <= rhv.toString().length) secondLine + " ".repeat(firstLine.length - rhv.toString().length - secondLine.length) + "${lhv / rhv}" else " ".repeat(
             lhv.toString().length - 2
         ) + "-0   " + "${lhv / rhv}"
     lastLine = if ((lhv < rhv) && (((rhv * (activeNumber / rhv)).toString().length + 1) < generateFirstLine(
