@@ -3,7 +3,9 @@
 package lesson7.task1
 
 import java.io.File
+import java.io.InputStream
 import kotlin.math.pow
+
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -24,8 +26,7 @@ import kotlin.math.pow
  */
 
 fun main() {
-    printDivisionProcess(4, 7, "Result")
-    print(" 1 | 1\n-1   1\n--\n 0")
+    alignFileByWidth("input/width_in1.txt", "temp.txt")
 }
 
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
@@ -151,8 +152,84 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val inputStream: InputStream = File(inputName).inputStream()
+    val writer = File(outputName).bufferedWriter()
+    var maxLength = 0
+
+    val lineList = mutableListOf<String>()
+
+    inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it) } }
+    lineList.forEach { if (it.length > maxLength) maxLength = it.length }
+    maxLength-=2
+    for (string: String in lineList) {
+        if (string.isNotEmpty()) {
+            var wordList = mutableListOf<String>()
+            var buffer = ""
+            var flag = false
+            var length = 0
+            var numberOfHoles = 0
+            var numberOfSpaces = 0
+            var holeList = mutableListOf<String>()
+            for (lat: Char in string) {
+                if (lat != ' ') {
+                    flag = true
+                    length++
+                    buffer += lat
+                } else {
+                    if (flag) {
+                        wordList.add(buffer)
+                        buffer = ""
+                        numberOfHoles++
+                    }
+                    flag = false
+                }
+            }
+            if (length !== 0) {
+                if (!flag) {
+                    numberOfHoles--
+                } else {
+                    wordList.add(buffer)
+                }
+                for (i in 1..numberOfHoles) {
+                    holeList.add("")
+                }
+                var it = length
+                if (numberOfHoles > 1) {
+                    while (it < maxLength) {
+                        val iterate = holeList.listIterator()
+                        while (iterate.hasNext()) {
+                            val oldValue = iterate.next()
+                            if (it < maxLength) {
+                                iterate.set("$oldValue ")
+                                it++
+                            } else {
+                                break
+                            }
+                        }
+                    }
+                }
+
+
+                holeList.sortBy { it.length }
+                holeList.reverse()
+
+                var iter = 0
+                for (hole: String in holeList) {
+                    writer.write(wordList[iter])
+                    writer.write(hole)
+                    iter++
+                }
+                writer.write(wordList[iter])
+            } else {
+                writer.newLine()
+            }
+        }
+
+        writer.newLine()
+    }
+    writer.close()
 }
+
 
 /**
  * Средняя (14 баллов)
