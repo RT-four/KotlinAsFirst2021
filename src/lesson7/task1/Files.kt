@@ -158,18 +158,16 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 
     val lineList = mutableListOf<String>()
 
-    inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it) } }
+    inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it.trim()) } }
     lineList.forEach { if (it.length > maxLength) maxLength = it.length }
-    maxLength-=2
     for (string: String in lineList) {
         if (string.isNotEmpty()) {
-            var wordList = mutableListOf<String>()
+            val wordList = mutableListOf<String>()
             var buffer = ""
             var flag = false
             var length = 0
             var numberOfHoles = 0
-            var numberOfSpaces = 0
-            var holeList = mutableListOf<String>()
+            val holeList = mutableListOf<String>()
             for (lat: Char in string) {
                 if (lat != ' ') {
                     flag = true
@@ -184,7 +182,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                     flag = false
                 }
             }
-            if (length !== 0) {
+            if (length != 0) {
                 if (!flag) {
                     numberOfHoles--
                 } else {
@@ -194,7 +192,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                     holeList.add("")
                 }
                 var it = length
-                if (numberOfHoles > 1) {
+                if (holeList.isNotEmpty()) {
                     while (it < maxLength) {
                         val iterate = holeList.listIterator()
                         while (iterate.hasNext()) {
@@ -208,6 +206,8 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                         }
                     }
                 }
+
+
 
 
                 holeList.sortBy { it.length }
@@ -536,7 +536,6 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     var result = ""
-    var firstLine = ""
     var secondLine = "-"
     var activeNumber = getDigit(lhv, 1)
     var firstValue = 0
@@ -548,7 +547,8 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         writer.newLine()
         writer.write(line)
     }
-    firstLine = if (lhv > rhv || lhv.toString().length <= rhv.toString().length) " $lhv | $rhv" else "$lhv | $rhv"
+
+    var firstLine = if (lhv > rhv || lhv.toString().length <= rhv.toString().length) " $lhv | $rhv" else "$lhv | $rhv"
 
     for (i in 1..digitNumber(lhv)) {
         if (i != 1) activeNumber = (activeNumber.toString() + getDigit(lhv, freeNumber).toString()).toInt()
