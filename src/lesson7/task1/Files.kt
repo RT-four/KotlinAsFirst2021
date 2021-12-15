@@ -2,6 +2,7 @@
 
 package lesson7.task1
 
+import lesson3.task1.digitNumber
 import java.io.File
 import java.io.InputStream
 import kotlin.math.pow
@@ -638,26 +639,11 @@ fun generateFirstLine(firstValue: Int, secondValue: Int, lastLine: String): Stri
     return res
 }
 
-
-fun digitNumber(n: Int): Int {
-    var digits = 0
-    var num = n
-    if (n == 0) {
-        digits++
-    } else {
-        while (num > 0) {
-            num /= 10
-            digits++
-        }
-    }
-
-    return digits
-}
-
 fun createLine(previousLine: String): String {
-    var line = ""
-    for (digit: Char in previousLine) {
-        line += if (digit == ' ') " " else "-"
+    var line = buildString {
+        for (digit: Char in previousLine) {
+            if (digit == ' ') append(" ") else append("-")
+        }
     }
     return line
 }

@@ -259,7 +259,6 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var result = ""
     val numbers = listOf<String>("I", "V", "X", "L", "C", "D", "M")
     val firstN = n % 10
     val secondN = n % 100 / 10
@@ -349,13 +348,8 @@ fun russian(n: Int): String {
     )
 
 
-    var nInWorkForm = "$n"
     var result = ""
 
-    for (i in 0..digitNumber(1000000 / n) - 2) {
-        nInWorkForm = "0$nInWorkForm"
-        nInWorkForm = "0$nInWorkForm"
-    }
     val lastTwo = n % 100
     result = when {
         lastTwo < 20 -> firstNumbers[lastTwo]
@@ -380,22 +374,6 @@ fun russian(n: Int): String {
 
 
     return "${hundreds[n / 100000]} $result".trim()
-}
-
-
-fun digitNumber(n: Int): Int {
-    var digits = 0
-    var num = n
-    if (n == 0) {
-        digits++
-    } else {
-        while (num > 0) {
-            num /= 10
-            digits++
-        }
-    }
-
-    return digits
 }
 
 
