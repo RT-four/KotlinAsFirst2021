@@ -27,7 +27,7 @@ import kotlin.math.pow
  */
 
 fun main() {
-    alignFileByWidth("input/width_in1.txt", "temp.txt")
+    robot("input.txt")
 }
 
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
@@ -157,11 +157,13 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     var maxLength = 0
 
-    val lineList = mutableListOf<String>()
+    var lineList = mutableListOf<String>()
 
-    inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it.trim()) } }
-    lineList.forEach { if (it.length > maxLength) maxLength = it.length }
+//    inputStream.bufferedReader().useLines { lines -> lines.forEach { lineList.add(it.trim()) } }
+    lineList = File(inputName).readLines() as MutableList<String>
+    lineList.forEach { if (it.trim().length > maxLength) maxLength = it.trim().length }
     for (string: String in lineList) {
+        string.trim()
         if (string.isNotEmpty()) {
             val wordList = mutableListOf<String>()
             var buffer = ""
@@ -195,16 +197,24 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                 var it = length
                 if (holeList.isNotEmpty()) {
                     while (it < maxLength) {
-                        val iterate = holeList.listIterator()
-                        while (iterate.hasNext()) {
-                            val oldValue = iterate.next()
+                        for (i in holeList.indices) {
                             if (it < maxLength) {
-                                iterate.set("$oldValue ")
+                                holeList[i] = holeList[i] + " "
                                 it++
                             } else {
                                 break
                             }
                         }
+//                        val iterate = holeList.listIterator()
+//                        while (iterate.hasNext()) {
+//                            val oldValue = iterate.next()
+//                            if (it < maxLength) {
+//                                iterate.set("$oldValue ")
+//                                it++
+//                            } else {
+//                                break
+//                            }
+//                    }
                     }
                 }
 
@@ -566,9 +576,16 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     if (secondValue == 0) secondLine += 0
 
     secondLine =
-        if (lhv > rhv || lhv.toString().length <= rhv.toString().length) secondLine + " ".repeat(firstLine.length - rhv.toString().length - secondLine.length) + "${lhv / rhv}" else " ".repeat(
-            lhv.toString().length - 2
-        ) + "-0   " + "${lhv / rhv}"
+        if (lhv > rhv || lhv.toString().length <= rhv.toString().length) {
+            secondLine.padEnd(
+                (firstLine.length - rhv.toString().length),
+                ' '
+            ) + "${lhv / rhv}"
+        } else {
+            " ".repeat(
+                lhv.toString().length - 2
+            ) + "-0   " + "${lhv / rhv}"
+        }
     lastLine = if ((lhv < rhv) && (((rhv * (activeNumber / rhv)).toString().length + 1) < generateFirstLine(
             lhv,
             0,
@@ -653,6 +670,122 @@ fun getDigit(num: Int, position: Int): Int {
     val del = (10.0).pow((lesson3.task1.digitNumber(num) - position))
     return if (del < 10) num % 10 else num / del.toInt() % 10
 }
+
+fun testOne() {
+    val string = "xxt\ndfe\ndff"
+
+    var desk = string.split("\n").map { it.toMutableList() }.toMutableList()
+    var maP = mutableMapOf<String, Int>()
+    maP["a"] = 2
+    val maR = maP.map { it -> it.key }
+
+
+    val pattern = Regex(".+:.+")
+    val eq = pattern.matches("dfdf : dfdf")
+    println(maR)
+}
+
+
+fun robot(input: String) {
+    var flag = true
+    val rows = File(input).readLines().toMutableList()
+    var map: MutableList<MutableList<String>> = mutableListOf()
+    var startPoint: Pair<Int, Int>? = null
+    var finishPoint: Pair<Int, Int>? = null
+    for (row: String in rows) {
+        map.add(row.chunked(1).toMutableList())
+    }
+    var d = 1
+    for (row: MutableList<String> in map) {
+        for (sell: String in row) {
+            if (sell == "*") {
+                startPoint = Pair(map.indexOf(row), row.indexOf(sell))
+            }
+            if (sell == "^") {
+                finishPoint = Pair(map.indexOf(row), row.indexOf(sell))
+            }
+        }
+    }
+
+    fun printMap() {
+        for (row: List<String> in map) {
+            println(row)
+        }
+        println()
+    }
+
+    fun asseptive(char: String): Boolean = char == "." || char == "^"
+
+    fun addToWave() {
+        flag = false
+        for (row: MutableList<String> in map) {
+            for (i in 0 until row.size) {
+                var triger = Pair(map.indexOf(row), i)
+                if (map[map.indexOf(row)][i] == (d - 1).toString()) {
+                    if (triger.second + 1 in 0 until map[0].size) {
+                        if (asseptive(map[triger.first][triger.second + 1])) {
+                            map[triger.first][triger.second + 1] = (d).toString()
+                            flag = true
+                        }
+                    }
+                    if (triger.second - 1 in 0 until map[0].size) {
+                        if (asseptive(map[triger.first][triger.second - 1])) {
+                            map[triger.first][triger.second - 1] = (d).toString()
+                            flag = true
+                        }
+                    }
+                    if (triger.first + 1 in 0 until map.size) {
+                        if (asseptive(map[triger.first + 1][triger.second])) {
+                            map[triger.first + 1][triger.second] = (d).toString()
+                            flag = true
+                        }
+                    }
+                    if (triger.first - 1 in 0 until map.size) {
+                        if (asseptive(map[triger.first - 1][triger.second])) {
+                            map[triger.first - 1][triger.second] = (d).toString()
+                            flag = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (startPoint != null) {
+        if (startPoint.second + 1 in 0 until map[0].size) {
+            if (asseptive(map[startPoint.first][startPoint.second + 1])) {
+                map[startPoint.first][startPoint.second + 1] = (d).toString()
+            }
+        }
+        if (startPoint.second - 1 in 0 until map[0].size) {
+            if (asseptive(map[startPoint.first][startPoint.second - 1])) {
+                map[startPoint.first][startPoint.second - 1] = (d).toString()
+            }
+        }
+        if (startPoint.first + 1 in 0 until map.size) {
+            if (asseptive(map[startPoint.first + 1][startPoint.second])) {
+                map[startPoint.first + 1][startPoint.second] = (d).toString()
+            }
+        }
+        if (startPoint.first - 1 in 0 until map.size) {
+            if (asseptive(map[startPoint.first - 1][startPoint.second])) {
+                map[startPoint.first - 1][startPoint.second] = (d).toString()
+            }
+        }
+    }
+
+    if (finishPoint != null) {
+        while (map[finishPoint.first][finishPoint.second] == "^" && flag) {
+            d++
+            addToWave()
+
+        }
+    }
+    printMap()
+
+}
+
+
+
 
 
 

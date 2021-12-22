@@ -2,12 +2,14 @@
 
 package lesson1.task1
 
+import java.lang.IllegalStateException
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 1: простые функции
 // Максимальное количество баллов = 5
 // Рекомендуемое количество баллов = 4
+
 
 /**
  * Пример
@@ -53,9 +55,6 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
 /**
  * Пример главной функции
  */
-fun main() {
-    print(lengthInMeters(8, 2, 11))
-}
 
 /**
  * Тривиальная (3 балла).
@@ -132,3 +131,90 @@ fun numberRevert(number: Int): Int {
     var third = number % 10
     return (third.toString() + second.toString() + first.toString()).toInt()
 }
+
+
+fun main() {
+    val ex = "НЕ X1 ИЛИ X2 ИЛИ X3"
+    val vals = "X1 = истина\nX2 = ложь"
+    myFun(ex, vals)
+}
+
+
+fun myFun(expr: String, vars: String): String {
+//    val reg = Regex("(((НЕ|ИЛИ)\\s..)+(\\s|\$))|(..\\s(НЕ|ИЛИ))(\\s|\$)||(..)")
+//    if (!reg.matches(expr)) {
+//        throw IllegalStateException("Некорректное выражение")
+//    }
+    fun revert(x: String) = if (x == "1") "0" else "1"
+    fun or(x: String, y: String) = if (x == "1" || y == "1") "1" else "0"
+
+    var expression = expr.split(" ").toMutableList()
+    val varsList = vars.split("\n")
+    var variables = mutableMapOf<String, Int>()
+    for (singleVar: String in varsList) {
+        var name = singleVar.split(" ")[0]
+        var znach = if (singleVar.split(" = ")[1] == "истина") 1 else 0
+        variables[name] = znach
+    }
+
+    var expressionInWorkForm = mutableListOf<String>()
+    for (element: String in expression) {
+        if (variables.containsKey(element)) {
+            expressionInWorkForm.add(variables[element].toString())
+        } else if(element == "НЕ"|| element == "ИЛИ"){
+            expressionInWorkForm.add(element)
+        }else{
+            throw IllegalStateException("no")
+        }
+    }
+    println(expressionInWorkForm)
+
+    while (expressionInWorkForm.size > 1) {
+        if (expressionInWorkForm.contains("НЕ")) {
+            expressionInWorkForm[expressionInWorkForm.indexOf("НЕ") + 1] =
+                revert(expressionInWorkForm[expressionInWorkForm.indexOf("НЕ") + 1])
+            expressionInWorkForm.removeAt(expression.indexOf("НЕ"))
+        }
+        if (expressionInWorkForm.contains("ИЛИ")) {
+            var index = expressionInWorkForm.indexOf("ИЛИ")
+            expressionInWorkForm[expressionInWorkForm.indexOf("ИЛИ")] = or(
+                expressionInWorkForm[expressionInWorkForm.indexOf("ИЛИ") - 1],
+                expressionInWorkForm[expressionInWorkForm.indexOf("ИЛИ") + 1]
+            )
+            expressionInWorkForm.removeAt(index + 1)
+            expressionInWorkForm.removeAt(index - 1)
+        }
+    }
+    println(expressionInWorkForm)
+    return if (expressionInWorkForm[0] == "0") "ИСТИНА" else "ЛОЖЬ"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
