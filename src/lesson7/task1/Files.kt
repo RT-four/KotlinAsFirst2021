@@ -27,7 +27,7 @@ import kotlin.math.pow
  */
 
 fun main() {
-    robot("input.txt")
+    printDivisionProcess(72843, 99994, "Result")
 }
 
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
@@ -547,6 +547,7 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     var result = ""
+    var firstLine: String
     var secondLine = "-"
     var activeNumber = getDigit(lhv, 1)
     var firstValue = 0
@@ -558,8 +559,14 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         writer.newLine()
         writer.write(line)
     }
+    if (lhv < rhv && lhv.toString().length == 1) {
+        firstLine =
+            " $lhv | $rhv"
+    } else {
+        firstLine =
+            if ((lhv >= rhv)) " $lhv | $rhv" else "$lhv | $rhv"
+    }
 
-    var firstLine = if (lhv > rhv || lhv.toString().length <= rhv.toString().length) " $lhv | $rhv" else "$lhv | $rhv"
 
     for (i in 1..digitNumber(lhv)) {
         if (i != 1) activeNumber = (activeNumber.toString() + getDigit(lhv, freeNumber).toString()).toInt()
@@ -575,27 +582,32 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 
     if (secondValue == 0) secondLine += 0
 
-    secondLine =
-        if (lhv > rhv || lhv.toString().length <= rhv.toString().length) {
-            secondLine.padEnd(
-                (firstLine.length - rhv.toString().length),
-                ' '
-            ) + "${lhv / rhv}"
-        } else {
-            " ".repeat(
-                lhv.toString().length - 2
-            ) + "-0   " + "${lhv / rhv}"
-        }
-    lastLine = if ((lhv < rhv) && (((rhv * (activeNumber / rhv)).toString().length + 1) < generateFirstLine(
+
+
+    if ((lhv > rhv || lhv.toString().length < rhv.toString().length) && lhv.toString().length > 1) {
+        secondLine = secondLine.padEnd(
+            (firstLine.length - rhv.toString().length),
+            ' '
+        ) + "${lhv / rhv}"
+    } else if (lhv.toString().length == 1) {
+        secondLine = "-0   " + "${lhv / rhv}"
+    } else {
+        secondLine = " ".repeat(
+            lhv.toString().length - 2
+        ) + "-0   " + "${lhv / rhv}"
+    }
+    if (lhv < rhv && lhv.toString().length != 1) {
+        lastLine = "-".repeat(generateFirstLine(lhv, 0, lastLine).length)
+    } else if ((lhv < rhv) && (((rhv * (activeNumber / rhv)).toString().length + 1) < generateFirstLine(
             lhv,
             0,
             lastLine
         ).length)
     ) {
 
-        "-".repeat(generateFirstLine(lhv, 0, lastLine).length + 1)
+        lastLine = "-".repeat(generateFirstLine(lhv, 0, lastLine).length + 1)
     } else {
-        "-".repeat((rhv * (activeNumber / rhv)).toString().length + 1)
+        lastLine = "-".repeat((rhv * (activeNumber / rhv)).toString().length + 1)
     }
 
 
@@ -631,7 +643,11 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     }
 
     firstLine =
-        if (lhv < rhv) generateFirstLine(lhv, 0, lastLine) else generateFirstLine(firstValue, secondValue, lastLine)
+        if (lhv < rhv) generateFirstLine(lhv, 0, lastLine) else generateFirstLine(
+            firstValue,
+            secondValue,
+            lastLine
+        )
 
     writeNewLine(firstLine)
 

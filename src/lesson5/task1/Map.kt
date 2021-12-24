@@ -7,6 +7,7 @@ package lesson5.task1
 // Рекомендуемое количество баллов = 9
 // Вместе с предыдущими уроками = 33/47
 
+
 /**
  * Пример
  *
@@ -284,19 +285,19 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    if (list.isNotEmpty()) {
-        var firstIndex = 0
-        var secondIndex = list.size - 1
-        var sum: Int
-        while (firstIndex != secondIndex) {
-            sum = list[firstIndex] + list[secondIndex]
-            if (sum > number) {
-                secondIndex--
-            } else if (sum < number) {
-                firstIndex++
-            } else if (sum == number) {
-                return Pair(firstIndex, secondIndex)
-            }
+    if (list.isEmpty()) return Pair(-1, -1)
+    var firstIndex = 0
+    var secondIndex = list.size - 1
+    var sum: Int
+    val sortedList = list.sorted()
+    while (firstIndex != secondIndex) {
+        sum = sortedList[firstIndex] + sortedList[secondIndex]
+        if (sum > number) {
+            secondIndex--
+        } else if (sum < number) {
+            firstIndex++
+        } else if (sum == number) {
+            return Pair(firstIndex, secondIndex)
         }
     }
     return Pair(-1, -1)
