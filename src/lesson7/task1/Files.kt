@@ -591,7 +591,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         ) + "${lhv / rhv}"
     }
     else if (lhv == 1 && rhv ==1) {
-        secondLine = " 1   " + "${lhv / rhv}"
+        secondLine = "-1   " + "${lhv / rhv}"
     } else if (lhv.toString().length == 1) {
         secondLine = "-0   " + "${lhv / rhv}"
     } else {
