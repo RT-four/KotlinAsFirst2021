@@ -317,8 +317,8 @@ class Tests {
             findSumOfTwo(listOf(1, 2, 3), 6)
         )
         assertEquals(
-            Pair(0, 1),
-            findSumOfTwo(listOf(0,0), 0)
+            Pair(0, 2),
+            findSumOfTwo(listOf(0,0,1,2,1,2), 1)
         )
     }
 

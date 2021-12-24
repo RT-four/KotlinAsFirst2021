@@ -27,7 +27,7 @@ import kotlin.math.pow
  */
 
 fun main() {
-    printDivisionProcess(1, 1, "Result")
+    printDivisionProcess(99999, 1, "Result")
 }
 
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
@@ -584,14 +584,14 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 
 
 
-    if ((lhv > rhv || lhv.toString().length < rhv.toString().length) && lhv.toString().length > 1) {
+    if (lhv == 1 && rhv == 1) {
+        secondLine = "-1   " + "${lhv / rhv}"
+    } else if ((lhv > rhv || lhv.toString().length < rhv.toString().length)) {
         secondLine = secondLine.padEnd(
             (firstLine.length - rhv.toString().length),
             ' '
         ) + "${lhv / rhv}"
-    }
-    else if (lhv == 1 && rhv ==1) {
-        secondLine = "-1   " + "${lhv / rhv}"
+
     } else if (lhv.toString().length == 1) {
         secondLine = "-0   " + "${lhv / rhv}"
     } else {
